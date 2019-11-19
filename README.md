@@ -20,6 +20,10 @@ the item they would like to purchase as well as the amount.
 
 
 
+### Link For App Explanation and Demonstration
+
+https://drive.google.com/file/d/17UNYWc5tJ0b3Jb_wKtab0Vh-dV5PtSFm/view
+
 
 ### Initial Goals of App Execution (Customer)
 
@@ -59,3 +63,5 @@ The Bamazon app should be able to do the following:
     - Time Stamped Receipts
         > Utilize JS features to document exact date and time of purchase as well as a receipt id that can be stored. This can allow for future
         feature of 30-day return or cash back.
+
+    

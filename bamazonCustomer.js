@@ -50,7 +50,69 @@ console.log("");
 });
 };
 
+var purchase = function(){
+  inquirer
+    .prompt({
+      name: "item",
+      type: "input",
+      message: "Which Item would you like to purchase? (Enter Item ID)"
+    }).then(function(ans){
+
+      var chosenItem = ans.item;
+      connection.query("SELECT * FROM products WHERE item_id=?", chosenItem, function(err,res){
+        if (err) throw err;
+        if (res.length ===0){
+          console.log("That is not a valid Item Id. Try Again....");
+          purchase();
+        }else {
+          console.log("Item Id is valid, Processing.... ");
+
+          inquirer
+            .prompt({
+              name: "quantity",
+              type: "input",
+              message: "How many units of this item would you like to purchase?"
+            }).then(function(ans){
+              var quantity = ans.quantity;
+              if (quantity > res[0].stock_quantity){
+                console.log ("We are unable to fulfill your order. Only "
+                 + res[0].stock_quantity + " units are available for order at this time");
+                 purchase();
+              }else{
+                console.log("");
+                console.log("Transaction Successful!")
+                console.log("User ordered " + quantity+ " units of " 
+                + res[0].products_name + " @ $" + res[0].price + " each");
+                var total= quantity * res[0].price;
+                console.log("User Total: " + total);
+                
+
+                var updatedQuantity = res[0].stock_quantity - quantity;
+                connection.query(
+                  "UPDATE products SET stock_quantity =" + updatedQuantity + "WHERE item_id =?"
+                  + res[0].item_id,
+                  function(err, res){
+                    if (err) throw err;
+                    console.log('');
+                    console.log("THANK YOU FOR SHOPPING. SEE YOU AGAIN SOON...");
+                    console.log("");
+                    connection.end();
+                  }
+                )
+              }
+            })
+
+        }
+      })
+    })
+
+}
+
+
+
+
 visual();
+purchase();
 
 
 

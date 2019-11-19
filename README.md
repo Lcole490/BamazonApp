@@ -22,8 +22,11 @@ the item they would like to purchase as well as the amount.
 
 ### Link For App Explanation and Demonstration
 
+Part One: Bamazon Customer
 https://drive.google.com/file/d/17UNYWc5tJ0b3Jb_wKtab0Vh-dV5PtSFm/view
 
+Part Two: Bamazon Customer Continued
+https://drive.google.com/file/d/1729JSAMU_wLlNquEFbJSj-u1O2PaHRfC/view
 
 ### Initial Goals of App Execution (Customer)
 

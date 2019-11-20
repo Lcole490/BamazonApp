@@ -101,7 +101,7 @@ var productSales = function () {
         console.log(table.toString());
         console.log("\n\n");
 
-        
+
 
     });
     console.log("\n\n");
@@ -135,12 +135,72 @@ var lowInventory = function () {
         console.log(table.toString());
         console.log("\n\n");
 
-        
+
 
     });
     console.log("\n\n");
     start();
 };
+
+
+
+// function to handle posting new items up for auction
+function addInventory() {
+    // prompt for info about the item being put up for auction
+    inquirer
+        .prompt([
+            {
+                name: "item",
+                type: "input",
+                message: "What is the item would you like to replenish? (use item id)"
+            },
+            {
+                name: "addedQuantity",
+                type: "input",
+                message: "How many units are you adding to the stock?",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    return false;
+                    console.log("Not a valid entry...Try again")
+                    addInventory();
+                }
+            }
+        ])
+        .then(function (answer) {
+            // when finished prompting, insert a new item into the db with that info
+            connection.query(
+                "SELECT stock_quantity FROM products WHERE item_id =answer.item", function (err, res) {      // queries database to show all columns and rows in products table
+                    if (err) throw err;                                            // error handling
+                    var currentQuantity = res;
+                });
+            connection.query(
+                "UPDATE products SET ? WHERE ?",
+                [
+                    {
+                        stock_quantity: currentQuantity+ answer.addedQuantity
+                    },
+                    {
+                        item_id: answer.item,
+
+                    }
+                ],
+                function (err) {
+                    if (err) throw err;
+                    console.log("Inventory has been updated successfully!");
+                    // re-prompt the user for if they want to bid or post
+                    start();
+                }
+            );
+        });
+}
+
+
+
+
+
+
 
 
 

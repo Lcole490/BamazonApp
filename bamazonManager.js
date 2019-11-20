@@ -44,14 +44,14 @@ function start() {
     console.log("B A M A Z O N __  M A N A G E R __ V I E W");
     console.log("*****************************************************************");
     console.log("");
-    console.log("B-M-V Main Page");
+    console.log("              B-M-V MAIN PAGE");
     console.log("");
 
     inquirer
         .prompt({
             name: "managerOptions",
             type: "list",
-            message: "What action would you like to perform?",
+            message: " What action would you like to perform?\n",
             choices: ["View Products for Sale",
                 "View Low Inventory",
                 "Add to Inventory",
@@ -78,14 +78,14 @@ function start() {
 }
 
 
-var visual = function () {
+var productSales = function () {
     connection.query("SELECT * FROM products", function (err, res) {      // queries database to show all columns and rows in products table
         if (err) throw err;                                            // error handling
 
         // Below are the settings for the table, this format is taken from documentation from cli-table2 package
         var table = new Table({
             head: ['ITEM ID', 'PRODUCT NAME', 'PRICE', 'QUANTITY']
-            , colWidths: [20, 20, 10, 5],
+            , colWidths: [20, 20, 10, 20],
             colAligns: ["center", "left", "right", "right"],
             style: {
                 head: ["aqua"],
@@ -96,10 +96,52 @@ var visual = function () {
 
         // Loop that populates cli-table with database table information
         for (var i = 0; i < res.length; i++) {
-            table.push([res[i].item_id, res[i].products_name, res[i].price, res[i].quantity]);
+            table.push([res[i].item_id, res[i].products_name, res[i].price, res[i].stock_quantity]);
         }
         console.log(table.toString());
-        console.log("");
+        console.log("\n\n");
+
+        
 
     });
+    console.log("\n\n");
+    start();
 };
+
+
+
+
+var lowInventory = function () {
+    connection.query("SELECT * FROM products WHERE stock_quantity < 10", function (err, res) {      // queries database to show all columns and rows in products table
+        if (err) throw err;                                            // error handling
+
+        // Below are the settings for the table, this format is taken from documentation from cli-table2 package
+        var table = new Table({
+            head: ['ITEM ID', 'PRODUCT NAME', 'PRICE', 'QUANTITY']
+            , colWidths: [20, 20, 10, 20],
+            colAligns: ["center", "left", "right", "right"],
+            style: {
+                head: ["aqua"],
+                compact: true
+            }
+        });
+        // End of formatting of table
+
+        // Loop that populates cli-table with database table information
+        for (var i = 0; i < res.length; i++) {
+            table.push([res[i].item_id, res[i].products_name, res[i].price, res[i].stock_quantity]);
+        }
+        console.log("\n\n")
+        console.log(table.toString());
+        console.log("\n\n");
+
+        
+
+    });
+    console.log("\n\n");
+    start();
+};
+
+
+
+start();

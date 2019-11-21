@@ -43,10 +43,20 @@ The Bamazon app should be able to do the following:
     - On the backend, the database should update to reflect the changes of the inventory 
         (ex: If the store's database initially has 10 units of an item and the user purchases 7, the database should update to show 3 units left)
 
+### Initial Goals of App Execution (Manager)
+
+The Bamazon app should be able to do the following:
+
+    - Incorporate user input/selection
+    - Show a table list of items for purchase (showing the user the id, product names, prices, and quantity)
+    - User should be able to view separate tables for all items and low inventory items
+    - On the backend, the database should update to reflect the changes of the products 
+        (ex: If the store's manager adds a product to the store, the database table should now show the new item(s) and attributes)
+    - On the backend, the database should update to reflect the changes of the inventory 
+        (ex: If the store's database initially has 10 units and the manager adds 5 units, the database should update to show 15 units in stock)
 
 
-
-### Future Scope
+### Future Scope (Customer)
 
     Below are possible features or updates that can improve the application
 
@@ -70,4 +80,27 @@ The Bamazon app should be able to do the following:
         > Utilize JS features to document exact date and time of purchase as well as a receipt id that can be stored. This can allow for future
         feature of 30-day return or cash back.
 
-    
+
+### Future Scope (Manager)
+
+    Below are possible features or updates that can improve the application
+
+    - Manager Password or Authorization
+        > Being that the store items are being manipulated, it's a practical real-world application to have the manager feature password protected
+
+        > Either can be a predetermined password or a validation from an employee id database table
+
+    - Budget 
+        > Ways of incorporating budget to restrict how many items can be added per department (could reset every week, month, etc)
+
+        > Preset limits on quantity of an item that can be in stock
+
+    - Remove Stock
+        > Provide another alternative to remove stock from the store and update database accordingly
+
+        > Could have budgetting implications (company takes loss on items, sold on discount and money from sale added back into dept budget)
+
+    - Tracking
+        > Stamp on transactions that tell which manager added to inventory and when 
+
+        > Stamp to tell when an item was last stocked 

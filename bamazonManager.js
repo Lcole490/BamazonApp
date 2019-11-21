@@ -155,6 +155,11 @@ function addInventory() {
                 message: "What is the item would you like to replenish? (use item id)"
             },
             {
+                name: "currentyQuantity",
+                type: "input",
+                message: "How many units are currently in stock?"
+            },
+            {
                 name: "addedQuantity",
                 type: "input",
                 message: "How many units are you adding to the stock?",
@@ -170,16 +175,18 @@ function addInventory() {
         ])
         .then(function (answer) {
             // when finished prompting, insert a new item into the db with that info
-            connection.query(
-                "SELECT stock_quantity FROM products WHERE item_id =answer.item", function (err, res) {      // queries database to show all columns and rows in products table
-                    if (err) throw err;                                            // error handling
-                    var currentQuantity = res;
-                });
+            // connection.query(
+            //     "SELECT stock_quantity FROM products WHERE item_id =answer.item", function (err, res) {      // queries database to show all columns and rows in products table
+            //         if (err) throw err;                                            // error handling
+            //         var currentQuantity = res;
+            //     });
+
+            var addedStock = parseInt(answer.currentyQuantity) + parseInt(answer.addedQuantity);
             connection.query(
                 "UPDATE products SET ? WHERE ?",
                 [
                     {
-                        stock_quantity: currentQuantity+ answer.addedQuantity
+                        stock_quantity: addedStock,
                     },
                     {
                         item_id: answer.item,
@@ -188,7 +195,8 @@ function addInventory() {
                 ],
                 function (err) {
                     if (err) throw err;
-                    console.log("Inventory has been updated successfully!");
+                    console.log("\nThere are now " + addedStock + " units of product with Item ID: " + answer.item + "\n");
+                    console.log("Inventory has been updated successfully! \n");
                     // re-prompt the user for if they want to bid or post
                     start();
                 }

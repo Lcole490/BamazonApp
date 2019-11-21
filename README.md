@@ -28,6 +28,9 @@ https://drive.google.com/file/d/17UNYWc5tJ0b3Jb_wKtab0Vh-dV5PtSFm/view
 Part Two: Bamazon Customer Continued
 https://drive.google.com/file/d/1729JSAMU_wLlNquEFbJSj-u1O2PaHRfC/view
 
+Part Three: Bamazon Manager
+https://drive.google.com/file/d/1D9LOL_3kvnuQyOT17KUNEOpoVz4PxeJ1/view
+
 ### Initial Goals of App Execution (Customer)
 
 The Bamazon app should be able to do the following:

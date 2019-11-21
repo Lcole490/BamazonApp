@@ -58,7 +58,7 @@ function start() {
                 "View Low Inventory",
                 "Add to Inventory",
                 "Add New Product",
-                "EXIT"]
+                "EXIT\n\n"]
         })
         .then(function (answer) {      
             // based on their answer from above, a different function is called to fulfill request
@@ -106,11 +106,13 @@ var productSales = function () {
             table.push([res[i].item_id, res[i].products_name, res[i].price, res[i].stock_quantity]);
         }
         console.log(table.toString());
+
         console.log("\n\n");
 
 
 
     });
+    console.log(" ");
     console.log("\n\n");
     start();                // Allows program to cycle back to main menu in case user wants to perform different action
 };
@@ -218,6 +220,74 @@ function addInventory() {
 
 
 // ***************************************** E N D _ _ O F _ _ F U N C T I O N ********************************************************
+
+
+
+
+function addProduct() {
+    // prompt for info about the item being put up for auction
+    inquirer
+      .prompt([
+        {
+          name: "product",
+          type: "input",
+          message: "What is the name of the product being added to the store?"
+        },
+        {
+          name: "category",
+          type: "input",
+          message: "What department would this item fall under? (Enter one of the following: Electronics, Sports, Office, Kitchen)..."
+        },
+        {
+          name: "price",
+          type: "input",
+          message: "What will be the cost (to the customer) of this product?",
+          validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+            addProduct();
+          }
+        },
+        {
+            name: "quantity",
+            type: "input",
+            message: "How many units of this product will be available for customers?",
+            validate: function(value) {
+              if (isNaN(value) === false) {
+                return true;
+              }
+              return false;
+              addProduct();
+            }
+          }
+      ])
+      .then(function(answer) {
+        // when finished prompting, insert a new item into the db with that info
+        connection.query(
+          "INSERT INTO products SET ?",
+          {
+            products_name: answer.product,
+            department_name: answer.category,
+            price: answer.price ,
+            stock_quantity: answer.quantity 
+          },
+          function(err) {
+            if (err) throw err;
+            console.log("You have added item to store successfully!");
+            // re-prompt the user for if they want to bid or post
+            start();
+          }
+        );
+      });
+  }
+  
+
+
+
+
+
 
 
 

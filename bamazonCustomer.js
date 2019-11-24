@@ -125,17 +125,29 @@ var purchase = function () {
 
 
                 var updatedQuantity = res[0].stock_quantity - quantity;   // Variable that is used to store new amount  of items left after purchase of item
+
+                var salesTotal = res[0].product_sales + total;
                 connection.query(                   // query is made to database to perform the following line
                   "UPDATE products SET ? WHERE ?",            // syntax of query: update the products table with new stock quantity for current item id
                   [
                     {
-                      stock_quantity: updatedQuantity     // key:value pair, set = stock_quantity and value given is updatedQuantity
+                      stock_quantity: updatedQuantity,     // key:value pair, set = stock_quantity and value given is updatedQuantity
+                      product_sales: salesTotal
                     },
+                  
                     {
                       item_id: res[0].item_id         // key:value pair, where = item_id and value is the current item
                     }
                   ],
-
+                  // "UPDATE products SET ? WHERE ?",
+                  // [
+                  //   {
+                  //     product_sales: salesTotal
+                  //   },
+                  //   {
+                  //     item_id: res[0].item_id
+                  //   }
+                  // ],
                   function (err, res) {  //error handling
                     if (err) throw err;
                     console.log('');  // Shopping experience successful
@@ -144,6 +156,7 @@ var purchase = function () {
                     connection.end();   // ends connection
                   }
                 )
+
               }
             })
 

@@ -62,10 +62,10 @@ function start() {
         })
         .then(function (answer) {      
             // based on their answer from above, a different function is called to fulfill request
-            if (answer.managerOptions === "View Products Sales By Department") {       // if user chose the view products for sale option...
+            if (answer.supervisorOptions === "View Products Sales By Department") {       // if user chose the view products for sale option...
                 viewDeptSales();             // function lets user view products for sale
             }
-            else if (answer.managerOptions === "Create New Department") {
+            else if (answer.supervisorOptions === "Create New Department") {
                 createNewDept();             // function lets user view items with low inventory
             } else {
                 connection.end();           // connection is ended here if user chooses exit option
@@ -74,3 +74,53 @@ function start() {
 }
 
 // *********************************E N D _ _ O F _ _ M A I N _ _ M E N U _ _ F U N C T I O N ***********************************************
+
+
+
+
+// ******************************** F U N C T I O N _ _ F O R _ _ C R E A T I N G _ _ N E W _ _ D E P T *************************************
+
+
+function createNewDept() {
+    
+    inquirer        // Inquirer package enables user interaction / input in CLI
+        .prompt([
+            {
+                name: "deptName",          // name of prompt data container
+                type: "input",          // Input type takes in user typed data and saves it as ans.item
+                message: "Enter the name of the department you would like to create" // first question user is asked
+            },
+            {
+                name: "initCost",           // name of prompt data container
+                type: "input",              // input type takes user typed data and saves it as ans.currentQuantity
+                message: "What overhead costs would you like to initialize for this department?" // Second question user is asked
+            },
+            
+        ])
+        .then(function (answer) {   // function runs after prompts are completed
+
+             
+            connection.query(                   // query database to target specific information
+                "INSERT INTO departments SET ? ",                // Update the stock quantity of item id entered by user with added stock
+                [
+                    {
+                        department_name: answer.deptName,             // Takes place of first "?" above
+                        over_head_costs: answer.initCost
+                    },
+                    
+                ],
+                function (err) {            // Error Handling
+                    if (err) throw err;             // Throws appropriate error
+                    console.log("\nA new" + answer.deptName + " department has been added to the store... " + "\n");
+                    console.log("Department listing has been updated successfully! \n");
+                    
+                    start();            // Allows user to head to main menu for further tasks without stopping connection
+                }
+            );
+        });
+}
+
+
+// ***************************************** E N D _ _ O F _ _ F U N C T I O N ********************************************************
+
+start();
